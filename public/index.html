@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+	<title>Prestilian</title>
+	<link rel="shortcut icon" content="favicon.webp" />
+	<link rel="stylesheet" href="index.css" />
+	<script src="/scram/scramjet.all.js"></script>
+	<script src="baremux/index.js" defer></script>
+	<script src="epoxy/index.js" defer></script>
+	<script src="register-sw.js" defer></script>
+	<script src="search.js" defer></script>
+	<script src="index.js" defer></script>
+
+	<script>
+		function abBlank(url, title) {
+			console.log("abBlank");
+
+			const popup = window.open("", "_blank", "width=1280,height=720");
+			if (!popup) {
+				alert("Popup blocked. Enable popups for this site.");
+				return;
+			}
+
+			const doc = popup.document;
+			doc.title = title || "Prestilian";
+
+			doc.body.style.margin = "0";
+			doc.body.style.height = "100%";
+			doc.body.style.overflow = "hidden";
+			doc.body.style.background = "#111";
+
+			const frame = doc.createElement("iframe");
+			frame.style.width = "100%";
+			frame.style.height = "100%";
+			frame.style.position = "fixed";
+			frame.style.top = "0";
+			frame.style.left = "0";
+			frame.style.border = "none";
+			frame.src = url;
+
+			doc.body.appendChild(frame);
+		}
+
+		window.addEventListener("DOMContentLoaded", () => {
+			const FLAG = "prestilian_aboutblank_opened";
+
+			if (!localStorage.getItem(FLAG)) {
+				setTimeout(() => {
+					abBlank(window.location.origin, "Prestilian Proxy");
+					localStorage.setItem(FLAG, "true");
+				}, 200);
+			}
+		});
+	</script>
+</head>
+
+<body>
+	<div title="Prestilian logo" class="flex-center logo-wrapper header-center">
+		<img class="logo" src="sj.png" alt="Prestilian" />
+	</div>
+
+	<div class="flex-center desc left-margin">
+		<p></p>
+	</div>
+
+	<form id="sj-form" class="flex-center">
+		<input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
+		<input id="sj-address" type="text" placeholder="Click here to search..." />
+	</form>
+
+	<div class="desc left-margin">
+		<p id="sj-error"></p>
+		<pre id="sj-error-code"></pre>
+	</div>
+</body>
+
+</html>
